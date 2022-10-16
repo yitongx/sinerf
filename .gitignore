@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+data_dir/
+data/
+log/
+logs/
+outputs/
+__pycache__/
+*/__pycache__/
+*.sh
