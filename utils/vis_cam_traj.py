@@ -97,3 +97,41 @@ def draw_camera_frustum_geometry(c2ws, H, W, fx=600.0, fy=600.0, frustum_length=
         o3d.visualization.draw_geometries([frustums_geometry])
 
     return frustums_geometry  # this is an o3d geometry object.
+
+
+def get_camera_frustum_geometry_nparray(c2ws, H, W, fx=600.0, fy=600.0, frustum_length=0.5, 
+                                 color=np.array([29.0, 53.0, 87.0])/255.0, draw_now=False, coord='opengl'):
+    '''
+    5.8 For reproducing trajectory plotting in NeRFmm.
+    '''
+    N = c2ws.shape[0]
+
+    num_ele = color.flatten().shape[0]
+    if num_ele == 3:
+        color = color.reshape(1, 3)
+        color = np.tile(color, (N, 1))
+
+    frustum_points_list = []
+    frustum_lines_list = []
+    frustum_colors_list = []
+    merged_points = np.zeros((N*5, 3))      # 5 vertices per frustum
+    merged_lines = np.zeros((N*8, 2))       # 8 lines per frustum
+    merged_colors = np.zeros((N*8, 3))      # each line gets a color
+    if coord == 'opengl':
+        for i in range(N):
+            points, lines, colors = get_camera_frustum_opengl_coord(H, W, fx, fy,
+                                                                W2C=np.linalg.inv(c2ws[i]),
+                                                                frustum_length=frustum_length,
+                                                                color=color[i])                           
+            frustum_points_list.append(points)
+            frustum_lines_list.append(lines)
+            frustum_colors_list.append(colors)
+
+            merged_points[i*5:(i+1)*5, :] = points
+            merged_lines[i*8:(i+1)*8, :] = lines + i*5
+            merged_colors[i*8:(i+1)*8, :] = colors
+    else:
+        print('Undefined coordinate system. Exit')
+        exit()
+
+    return merged_points, merged_lines, merged_colors

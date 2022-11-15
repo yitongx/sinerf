@@ -24,9 +24,9 @@ from models.poses import LearnPose
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--base_dir', type=str, default='./data_dir/nerfmm_release_data',
+    parser.add_argument('--base_dir', type=str, default='./data/LLFF/',
                         help='folder contains various scenes')
-    parser.add_argument('--scene_name', type=str, default='LLFF/fern')
+    parser.add_argument('--scene_name', type=str, default='flower')
     parser.add_argument('--learn_focal', default=False, type=bool)
     parser.add_argument('--fx_only', default=False, type=bool)
     parser.add_argument('--focal_order', default=2, type=int)
@@ -114,7 +114,16 @@ def main(args):
 
         # compute ate
         stats_tran_est, stats_rot_est, _ = compute_ate(c2ws_est_aligned, c2ws_cmp, align_a2b=None)
-        print('From est to colmap: tran err {0:.3f}, rot err {1:.2f}'.format(stats_tran_est['mean'], stats_rot_est['mean']))
+        print('From est to colmap: tran err {0:.3f}, rot err {1:.2f}'.format(stats_tran_est['mean'],
+                                                                             stats_rot_est['mean']))
+
+    # frustum_est_points_list, frustum_est_lines_list, _ = get_camera_frustum_geometry_nparray_list(c2ws_est_to_draw_align2cmp.cpu().numpy(), H, W, 
+    #                                                             fxfy[0], fxfy[1], frustum_length, est_traj_color)
+    # frustum_colmap_points_list, frustum_colmap_lines_list, _ = get_camera_frustum_geometry_nparray_list(c2ws_cmp.cpu().numpy(), H, W, 
+    #                                                                colmap_focal, colmap_focal, frustum_length, cmp_traj_color)
+    # print("len(frustum_est_list.points):", len(frustum_est_points_list), frustum_est_points_list[0].shape)  # N x (5, 3)
+    # print("len(frustum_est_list.lines):", len(frustum_est_lines_list), frustum_est_lines_list[0].shape) # N x (8, 2)
+    
     frustum_est_points_np, frustum_est_lines_np, _ = get_camera_frustum_geometry_nparray(c2ws_est_to_draw_align2cmp.cpu().numpy(), H, W, fxfy[0], fxfy[1], frustum_length, est_traj_color)
     frustum_colmap_points_np, frustum_colmap_lines_np, _ = get_camera_frustum_geometry_nparray(c2ws_cmp.cpu().numpy(), H, W, colmap_focal, colmap_focal, frustum_length, cmp_traj_color)
 
@@ -135,12 +144,12 @@ def main(args):
         
     fig = plt.figure()
     ax = fig.gca()
-    ax.plot(plt_colmap_origins[:, 0], plt_colmap_origins[:, 1], 'm--^')
+    ax.plot(plt_colmap_origins[:, 0], plt_colmap_origins[:, 1], 'm-^')
     ax.plot(plt_est_origins[:, 0], plt_est_origins[:, 1], 'b-^')
     ax.set_xlim([-1.5, 1.5])
     ax.set_ylim([-1.0, 1.0])
-    ax.legend(['COLMAP', 'Ours'])
-    ax.set_title("Flower")
+    ax.legend(['COLMAP', 'Ours'], loc='upper left')
+    ax.set_title("{}".format(args.scene_name[0].upper() + args.scene_name[1:].lower()))
     ax.set_xlabel('x')
     ax.set_ylabel('y')
     # ax.set_zlabel('z')
