@@ -1,6 +1,6 @@
 # SiNeRF: Sinusoidal Neural Radiance Fields for Joint Pose Estimation and Scene Reconstruction
 
-**[arXiv](http://arxiv.org/abs/2210.04553) | [BMCV2022](todo)**
+**[arXiv](http://arxiv.org/abs/2210.04553) | [BMCV2022](https://bmvc2022.mpi-inf.mpg.de/131/)**
 
 [Yitong Xia¹](https://github.com/yitongx), [Hao Tang¹](http://disi.unitn.it/~hao.tang/), [Radu Timofte¹² ](http://people.ee.ethz.ch/~timofter/), [Luc Van Gool¹](https://scholar.google.com/citations?user=TwMib_QAAAAJ&hl=zh-CN)
 
