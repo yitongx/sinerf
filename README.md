@@ -92,10 +92,12 @@ This work is an improvement upon [NeRFmm](https://github.com/ActiveVisionLab/ner
 ## Citation
 If you find our paper or repository useful, please cite `BibTeX` as: 
 ```
-@article{xia2022sinerf,
-  title={SiNeRF: Sinusoidal Neural Radiance Fields for Joint Pose Estimation and Scene Reconstruction},
-  author={Xia, Yitong and Tang, Hao and Timofte, Radu and Van Gool, Luc},
-  journal={arXiv preprint arXiv:2210.04553},
-  year={2022}
+@inproceedings{Xia_2022_BMVC,
+author    = {Yitong Xia and Hao Tang and Radu Timofte and Luc Van Gool},
+title     = {SiNeRF: Sinusoidal Neural Radiance Fields for Joint Pose Estimation and Scene Reconstruction},
+booktitle = {33rd British Machine Vision Conference 2022, {BMVC} 2022, London, UK, November 21-24, 2022},
+publisher = {{BMVA} Press},
+year      = {2022},
+url       = {https://bmvc2022.mpi-inf.mpg.de/0131.pdf}
 }
 ```
